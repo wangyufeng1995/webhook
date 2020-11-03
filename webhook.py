@@ -46,7 +46,7 @@ def send():
 	
       message=alert_info
       try:
-        key = "fb18b75b3ddda7e388a5203d74cbe78a0528ebb490ba69c111f01b2ef741ce9e"
+        key = "个人key"
         response,url = init_messages(key,message=message)
         send_message(message=response,url=url)
       except Exception as e:
