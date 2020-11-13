@@ -9,7 +9,9 @@ import datetime
 
 def init_messages(key,**kwargs):
     token = key
-    url = "https://oapi.dingtalk.com/robot/send?access_token=%s" % (token,)
+    timestamp = kwargs["timestamp"]
+    sign = kwargs['sign']
+    url = "https://oapi.dingtalk.com/robot/send?access_token=%s&timestamp=%s&sign=%s" % (token,timestamp,sign)
 
     nowtime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
     alert_info = kwargs['message']
@@ -36,7 +38,7 @@ def init_messages(key,**kwargs):
 
     return messages,url
 
-def get_boot(url,message):
+def send_message(url,message):
 
     headers = {'content-type': "application/json"}
     body = {
