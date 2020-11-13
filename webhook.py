@@ -4,9 +4,16 @@ import requests
 import json
 import time, datetime
 from dingding import *
+import time
+import hmac
+import hashlib
+import base64
+import urllib.parse
 app = Flask(__name__)
+'''
+脚本功能：从192.168.111.1获取到json文件，然原样输出。
 
-
+'''
 @app.route('/send', methods=['POST'])
 def send():
   try:
@@ -46,8 +53,15 @@ def send():
 	
       message=alert_info
       try:
-        key = "个人key"
-        response,url = init_messages(key,message=message)
+        key = "My KEY"
+        secret = 'MY SECRET'
+        timestamp = str(round(time.time() * 1000))
+        secret_enc = secret.encode('utf-8')
+        string_to_sign = '{}\n{}'.format(timestamp, secret)
+        string_to_sign_enc = string_to_sign.encode('utf-8')
+        hmac_code = hmac.new(secret_enc, string_to_sign_enc, digestmod=hashlib.sha256).digest()
+        sign = urllib.parse.quote_plus(base64.b64encode(hmac_code))
+        response,url = init_messages(key,message=message,sign=sign,timestamp=timestamp)
         send_message(message=response,url=url)
       except Exception as e:
         print (e)
