@@ -11,8 +11,7 @@ import base64
 import urllib.parse
 app = Flask(__name__)
 '''
-脚本功能：从192.168.111.1获取到json文件，然原样输出。
-
+脚本功能：获取Alertmanager 的报警信息重写发送钉钉
 '''
 @app.route('/send', methods=['POST'])
 def send():
